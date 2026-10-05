@@ -86,7 +86,7 @@
       </div>
 
       <div id="copyView">
-        <p class="muted">Edit the headline &amp; intro shown at the top of each page. Save updates the private source; ask the site publisher to publish the reviewed changes.</p>
+        <p class="muted">Edit the headline &amp; intro shown at the top of each page. Save updates the source and automatically publishes the website after checks pass.</p>
         <div id="copyForm"></div>
         <button class="btn-primary" onclick="savePageCopy()">Save page copy</button>
       </div>
@@ -196,7 +196,7 @@
         try {
           const f = await putFile("content/pages.json", JSON.stringify(copyData, null, 2) + "\n", copySha, "Edit page copy (via site editor)");
           copySha = f.content.sha;
-          toast("Saved to source. Ready for publisher review.", "ok");
+          toast("Saved. Website will update after publishing checks pass.", "ok");
         } catch (e) { toast("Save failed: " + e.message, "err"); }
       }
 
@@ -324,7 +324,7 @@
         try {
           const f = await putFile("posts/"+p.slug+".json", JSON.stringify(p, null, 2) + "\n", editing.sha, (editing.name?"Edit":"Add")+" post: "+p.slug+" (via site editor)");
           editing = { name:p.slug+".json", sha:f.content.sha };
-          toast("Saved to source. Ready for publisher review.", "ok");
+          toast("Saved. Website will update after publishing checks pass.", "ok");
         } catch (e) { toast("Save failed: " + e.message, "err"); }
       }
       async function delPost() {
