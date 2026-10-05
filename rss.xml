@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+    <title>The 517 Dispatch</title>
+    <link>https://517edtech-remc13.github.io/dispatch.html</link>
+    <description>Quick tips, recaps, and resources from the 517 Ed Tech team.</description>
+    <language>en-us</language>
+    <item>
+      <title>HELLO</title>
+      <link>https://517edtech-remc13.github.io/dispatch-hello.html</link>
+      <guid>https://517edtech-remc13.github.io/dispatch-hello.html</guid>
+      <category>News</category>
+      <pubDate>Tue, 14 Jul 2026 00:00:00 -0000</pubDate>
+      <description></description>
+    </item>
+    <item>
+      <title>Turn on live captions in Google Slides</title>
+      <link>https://517edtech-remc13.github.io/dispatch-live-captions.html</link>
+      <guid>https://517edtech-remc13.github.io/dispatch-live-captions.html</guid>
+      <category>Tech Tip Tuesday</category>
+      <pubDate>Tue, 03 Mar 2026 00:00:00 -0000</pubDate>
+      <description>A 90-second win that makes every presentation more accessible — no add-ons required.</description>
+    </item>
+    <item>
+      <title>Five Gemini prompts that save teachers an hour a week</title>
+      <link>https://517edtech-remc13.github.io/dispatch-gemini-prompts.html</link>
+      <guid>https://517edtech-remc13.github.io/dispatch-gemini-prompts.html</guid>
+      <category>AI</category>
+      <pubDate>Wed, 18 Feb 2026 00:00:00 -0000</pubDate>
+      <description>Ready-to-paste prompts for feedback, differentiation, and parent communication.</description>
+    </item>
+</channel></rss>

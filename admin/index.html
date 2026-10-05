@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>517 Ed Tech — Site Editor</title>
+    <style>
+      :root {
+        --ink:#101a2e; --bg:#f1f5fb; --surface:#fff; --line:#e0e7f2;
+        --blue:#2660d0; --blue-ink:#1c4aa8; --muted:#56617a; --red:#d5382a; --green:#28a35a;
+      }
+      * { box-sizing:border-box; }
+      body { margin:0; font-family:system-ui,-apple-system,Segoe UI,sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+      header { position:sticky; top:0; background:var(--ink); color:#fff; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; }
+      header b { font-size:1.05rem; }
+      header .who { font-size:.85rem; color:#b8c4dc; }
+      .wrap { max-width:820px; margin:0 auto; padding:24px 20px 80px; }
+      button { font:inherit; cursor:pointer; border:none; border-radius:8px; padding:10px 16px; font-weight:600; }
+      .btn-primary { background:var(--blue); color:#fff; }
+      .btn-primary:hover { background:var(--blue-ink); }
+      .btn-ghost { background:var(--surface); color:var(--ink); border:1px solid var(--line); }
+      .btn-danger { background:#fff; color:var(--red); border:1px solid #f0c9c4; }
+      .btn-sm { padding:6px 12px; font-size:.88rem; }
+      input, textarea, select { width:100%; font:inherit; padding:9px 11px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink); }
+      textarea { resize:vertical; min-height:56px; }
+      label { display:block; font-size:.8rem; font-weight:700; color:var(--muted); margin:12px 0 4px; text-transform:uppercase; letter-spacing:.04em; }
+      .card { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:18px; box-shadow:0 1px 2px rgba(16,26,46,.04); }
+      .card h3 { margin:0 0 4px; }
+      .tabs { display:flex; gap:8px; margin-bottom:20px; }
+      .tab { background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:8px 18px; font-weight:600; }
+      .tab.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+      .row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+      .muted { color:var(--muted); font-size:.9rem; }
+      .toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--ink); color:#fff; padding:12px 20px; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.25); opacity:0; transition:opacity .2s, transform .2s; pointer-events:none; z-index:50; }
+      .toast.show { opacity:1; transform:translateX(-50%) translateY(-4px); }
+      .toast.err { background:var(--red); }
+      .toast.ok { background:var(--green); }
+      details { border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-top:14px; background:#fff; }
+      summary { font-weight:700; cursor:pointer; }
+      ol { padding-left:20px; } ol li { margin:6px 0; }
+      code { background:#eef2f9; padding:1px 6px; border-radius:5px; font-size:.9em; }
+      a { color:var(--blue-ink); }
+      .block { border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:12px; background:#fbfcfe; }
+      .block-head { display:flex; gap:10px; align-items:center; margin-bottom:8px; }
+      .block-head select { width:auto; }
+      .hide { display:none !important; }
+      .postrow { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-top:1px solid var(--line); }
+      .postrow:first-child { border-top:none; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <b>517 Ed Tech · Site Editor</b>
+      <span><span class="who" id="who"></span> <button class="btn-ghost btn-sm hide" id="logout" onclick="logout()">Log out</button></span>
+    </header>
+
+    <!-- LOGIN -->
+    <div class="wrap" id="loginView">
+      <div class="card">
+        <h3>Sign in</h3>
+        <p class="muted">Paste your GitHub access token. It stays in this browser only and is used to save your edits back to GitHub. Nothing is stored on the site.</p>
+        <label for="token">GitHub token</label>
+        <input id="token" type="password" placeholder="github_pat_..." autocomplete="off" />
+        <div style="margin-top:14px"><button class="btn-primary" onclick="saveToken()">Sign in</button></div>
+
+        <details>
+          <summary>First time? How to get your token (2 minutes)</summary>
+          <ol>
+            <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">github.com → new fine-grained token</a> (sign in if asked).</li>
+            <li><b>Token name:</b> anything, e.g. "517 site editor".</li>
+            <li><b>Resource owner:</b> your account (Turnstyle19320).</li>
+            <li><b>Repository access:</b> choose <b>Only select repositories</b> → pick <code>517edtech-site</code>.</li>
+            <li><b>Permissions:</b> expand <b>Repository permissions</b> → set <b>Contents</b> to <b>Read and write</b>.</li>
+            <li>Click <b>Generate token</b>, copy it, and paste it above. (You only do this once per browser.)</li>
+          </ol>
+          <p class="muted">Lost it or leaving the team? Just delete the token on GitHub — it only ever had access to this one repo.</p>
+        </details>
+      </div>
+    </div>
+
+    <!-- APP -->
+    <div class="wrap hide" id="appView">
+      <div class="tabs">
+        <button class="tab active" id="tabCopy" onclick="showTab('copy')">Page copy</button>
+        <button class="tab" id="tabPosts" onclick="showTab('posts')">Dispatch posts</button>
+      </div>
+
+      <div id="copyView">
+        <p class="muted">Edit the headline &amp; intro shown at the top of each page. Save publishes to the live site (~1 min).</p>
+        <div id="copyForm"></div>
+        <button class="btn-primary" onclick="savePageCopy()">Save page copy</button>
+      </div>
+
+      <div id="postsView" class="hide">
+        <div id="postsList"></div>
+        <div id="postEditor" class="hide"></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      const OWNER = "517EdTech-REMC13", REPO = "517edtech-site", BRANCH = "main";
+      const API = "https://api.github.com";
+      const PAGES = [["home","Homepage"],["gatherings","Gatherings"],["dispatch","The Dispatch"],["resources","Resources"],["grants","Grants"],["about","About"]];
+      const CATEGORIES = ["Tech Tip Tuesday","3-Minute Instructional Tech","Recap","AI","News"];
+      const ICONS = ["captions","video","spark","doc","users","calendar","award"];
+      const BLOCK_TYPES = ["p","h2","h3","steps","list","callout","image"];
+
+      let token = localStorage.getItem("gh_token") || "";
+      const $ = (id) => document.getElementById(id);
+
+      // ---- utf-8 safe base64 ----
+      const b64encode = (str) => btoa(unescape(encodeURIComponent(str)));
+      const b64decode = (b64) => decodeURIComponent(escape(atob(b64.replace(/\n/g, ""))));
+
+      function toast(msg, kind) {
+        const t = $("toast"); t.textContent = msg; t.className = "toast show " + (kind||"");
+        setTimeout(() => t.className = "toast", 2600);
+      }
+
+      async function gh(path, opts={}) {
+        const res = await fetch(API + path, {
+          ...opts,
+          headers: { "Authorization": "Bearer " + token, "Accept": "application/vnd.github+json", ...(opts.headers||{}) },
+        });
+        if (!res.ok) {
+          const body = await res.json().catch(()=>({}));
+          throw new Error((body.message || res.statusText) + " (" + res.status + ")");
+        }
+        return res.status === 204 ? {} : res.json();
+      }
+      const getFile = (p) => gh(`/repos/${OWNER}/${REPO}/contents/${p}?ref=${BRANCH}`);
+      const putFile = (p, text, sha, message) => gh(`/repos/${OWNER}/${REPO}/contents/${p}`, {
+        method:"PUT",
+        body: JSON.stringify({ message, content: b64encode(text), branch: BRANCH, ...(sha?{sha}:{}) }),
+      });
+      const deleteFile = (p, sha, message) => gh(`/repos/${OWNER}/${REPO}/contents/${p}`, {
+        method:"DELETE", body: JSON.stringify({ message, sha, branch: BRANCH }),
+      });
+
+      // ---- auth ----
+      async function saveToken() {
+        const val = $("token").value.trim();
+        if (!val) return toast("Paste your token first", "err");
+        token = val;
+        try {
+          const me = await gh("/user");
+          localStorage.setItem("gh_token", token);
+          $("who").textContent = "Signed in as " + me.login;
+          start();
+        } catch (e) { token=""; toast("That token didn't work: " + e.message, "err"); }
+      }
+      function logout() { localStorage.removeItem("gh_token"); token=""; location.reload(); }
+
+      async function init() {
+        if (!token) return;
+        try { const me = await gh("/user"); $("who").textContent = "Signed in as " + me.login; start(); }
+        catch { token=""; localStorage.removeItem("gh_token"); }
+      }
+      function start() {
+        $("loginView").classList.add("hide");
+        $("appView").classList.remove("hide");
+        $("logout").classList.remove("hide");
+        loadPageCopy();
+        loadPosts();
+      }
+      function showTab(which) {
+        $("tabCopy").classList.toggle("active", which==="copy");
+        $("tabPosts").classList.toggle("active", which==="posts");
+        $("copyView").classList.toggle("hide", which!=="copy");
+        $("postsView").classList.toggle("hide", which!=="posts");
+      }
+
+      // ---- page copy ----
+      let copySha = null, copyData = {};
+      async function loadPageCopy() {
+        try {
+          const f = await getFile("content/pages.json");
+          copySha = f.sha; copyData = JSON.parse(b64decode(f.content));
+          $("copyForm").innerHTML = PAGES.map(([key,label]) => {
+            const c = copyData[key] || {};
+            return `<div class="card"><h3>${label}</h3>
+              <label>Eyebrow (small label)</label><input data-k="${key}.eyebrow" value="${esc(c.eyebrow||"")}">
+              <label>Headline</label><textarea data-k="${key}.headline">${esc(c.headline||"")}</textarea>
+              <label>Intro paragraph</label><textarea data-k="${key}.lede">${esc(c.lede||"")}</textarea>
+            </div>`;
+          }).join("");
+        } catch (e) { toast("Couldn't load page copy: " + e.message, "err"); }
+      }
+      async function savePageCopy() {
+        document.querySelectorAll("#copyForm [data-k]").forEach(el => {
+          const [key,field] = el.dataset.k.split(".");
+          (copyData[key] = copyData[key]||{})[field] = el.value;
+        });
+        try {
+          const f = await putFile("content/pages.json", JSON.stringify(copyData, null, 2) + "\n", copySha, "Edit page copy (via site editor)");
+          copySha = f.content.sha;
+          toast("Saved! Live in about a minute.", "ok");
+        } catch (e) { toast("Save failed: " + e.message, "err"); }
+      }
+
+      // ---- posts ----
+      let posts = [];
+      async function loadPosts() {
+        try {
+          const files = await getFile("posts");
+          posts = (Array.isArray(files)?files:[]).filter(f => f.name.endsWith(".json") && !f.name.startsWith("_"));
+          $("postEditor").classList.add("hide");
+          $("postsList").classList.remove("hide");
+          $("postsList").innerHTML = `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center">
+              <h3 style="margin:0">Posts</h3><button class="btn-primary btn-sm" onclick="newPost()">+ New post</button></div>`
+            + posts.map(f => `<div class="postrow"><span>${esc(f.name.replace(/\.json$/,''))}</span>
+                <button class="btn-ghost btn-sm" onclick="editPost('${f.name}')">Edit</button></div>`).join("")
+            + `</div>`;
+        } catch (e) { toast("Couldn't load posts: " + e.message, "err"); }
+      }
+
+      let editing = { name:null, sha:null };
+      function blankPost() {
+        return { slug:"", title:"", category:CATEGORIES[0], date:new Date().toISOString().slice(0,10), readTime:"2 min read",
+          author:{name:"",role:"",initials:"",color:"#2660d0"}, cover:{c1:"#1c4aa8",c2:"#3f7ae0",icon:"spark"},
+          excerpt:"", blocks:[{type:"p",lead:true,text:""}] };
+      }
+      async function editPost(name) {
+        try { const f = await getFile("posts/"+name); editing={name, sha:f.sha}; renderPost(JSON.parse(b64decode(f.content))); }
+        catch (e) { toast("Couldn't open post: " + e.message, "err"); }
+      }
+      function newPost() { editing={name:null, sha:null}; renderPost(blankPost()); }
+
+      function renderPost(p) {
+        $("postsList").classList.add("hide");
+        const ed = $("postEditor"); ed.classList.remove("hide");
+        const opt = (arr,v) => arr.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("");
+        ed.innerHTML = `
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <h3 style="margin:0">${editing.name?"Edit post":"New post"}</h3>
+              <button class="btn-ghost btn-sm" onclick="loadPosts()">← Back</button>
+            </div>
+            <label>Headline</label><input id="p_title" value="${esc(p.title)}">
+            <div class="row2">
+              <div><label>URL slug (lowercase-with-dashes)</label><input id="p_slug" value="${esc(p.slug)}" ${editing.name?"readonly":""}></div>
+              <div><label>Category</label><select id="p_category">${opt(CATEGORIES,p.category)}</select></div>
+            </div>
+            <div class="row2">
+              <div><label>Date</label><input id="p_date" type="date" value="${esc(p.date)}"></div>
+              <div><label>Read time</label><input id="p_readTime" value="${esc(p.readTime)}"></div>
+            </div>
+            <label>Short summary (card + newsletter)</label><textarea id="p_excerpt">${esc(p.excerpt)}</textarea>
+            <div class="row2">
+              <div><label>Author name</label><input id="a_name" value="${esc(p.author?.name||"")}"></div>
+              <div><label>Author role / district</label><input id="a_role" value="${esc(p.author?.role||"")}"></div>
+            </div>
+            <div class="row2">
+              <div><label>Author initials</label><input id="a_initials" value="${esc(p.author?.initials||"")}"></div>
+              <div><label>Cover icon</label><select id="c_icon">${opt(ICONS,p.cover?.icon||"spark")}</select></div>
+            </div>
+            <label>Body</label>
+            <div id="blocks"></div>
+            <button class="btn-ghost btn-sm" onclick="addBlock()">+ Add block</button>
+            <div style="margin-top:18px;display:flex;gap:10px">
+              <button class="btn-primary" onclick="savePost()">Save post</button>
+              ${editing.name?`<button class="btn-danger" onclick="delPost()">Delete</button>`:""}
+            </div>
+            <input type="hidden" id="c_c1" value="${esc(p.cover?.c1||'#1c4aa8')}"><input type="hidden" id="c_c2" value="${esc(p.cover?.c2||'#3f7ae0')}">
+            <input type="hidden" id="a_color" value="${esc(p.author?.color||'#2660d0')}">
+          </div>`;
+        (p.blocks||[]).forEach(addBlock);
+        if (!(p.blocks||[]).length) addBlock();
+      }
+
+      function addBlock(b) {
+        b = (b && b.type) ? b : {type:"p", text:""};
+        const wrap = document.createElement("div");
+        wrap.className = "block";
+        const opt = (arr,v) => arr.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("");
+        wrap.innerHTML = `
+          <div class="block-head">
+            <select class="b_type" onchange="syncBlock(this)">${opt(BLOCK_TYPES,b.type)}</select>
+            <button class="btn-ghost btn-sm" onclick="this.closest('.block').remove()">Remove</button>
+          </div>
+          <div class="b_text_w"><textarea class="b_text" placeholder="Text (use **bold** and [link](url))">${esc(b.text||"")}</textarea></div>
+          <div class="b_items_w"><textarea class="b_items" placeholder="One item per line">${esc((b.items||[]).join("\n"))}</textarea></div>
+          <div class="b_img_w row2">
+            <div><input class="b_caption" placeholder="Image caption" value="${esc(b.caption||"")}"></div>
+            <div><select class="b_icon">${opt(ICONS,b.icon||"spark")}</select></div>
+          </div>
+          <label style="display:inline-flex;gap:6px;align-items:center;text-transform:none;font-weight:500;margin-top:8px">
+            <input type="checkbox" class="b_lead" style="width:auto" ${b.lead?"checked":""}> Large intro paragraph</label>`;
+        $("blocks").appendChild(wrap);
+        syncBlock(wrap.querySelector(".b_type"));
+      }
+      function syncBlock(sel) {
+        const b = sel.closest(".block"), t = sel.value;
+        b.querySelector(".b_text_w").classList.toggle("hide", !["p","h2","h3","callout"].includes(t));
+        b.querySelector(".b_items_w").classList.toggle("hide", !["steps","list"].includes(t));
+        b.querySelector(".b_img_w").classList.toggle("hide", t!=="image");
+        b.querySelector(".b_lead").closest("label").classList.toggle("hide", t!=="p");
+      }
+
+      function collectPost() {
+        const val = id => $(id).value.trim();
+        const blocks = [...document.querySelectorAll("#blocks .block")].map(el => {
+          const t = el.querySelector(".b_type").value; const b = {type:t};
+          if (["p","h2","h3","callout"].includes(t)) b.text = el.querySelector(".b_text").value;
+          if (["steps","list"].includes(t)) b.items = el.querySelector(".b_items").value.split("\n").map(s=>s.trim()).filter(Boolean);
+          if (t==="p" && el.querySelector(".b_lead").checked) b.lead = true;
+          if (t==="image") { b.caption = el.querySelector(".b_caption").value; b.icon = el.querySelector(".b_icon").value; b.c1="#1c4aa8"; b.c2="#3f7ae0"; }
+          return b;
+        });
+        return {
+          slug: val("p_slug"), title: val("p_title"), category: val("p_category"),
+          date: val("p_date"), readTime: val("p_readTime"),
+          author: { name:val("a_name"), role:val("a_role"), initials:val("a_initials"), color:$("a_color").value },
+          cover: { c1:$("c_c1").value, c2:$("c_c2").value, icon:val("c_icon") },
+          excerpt: val("p_excerpt"), blocks,
+        };
+      }
+      async function savePost() {
+        const p = collectPost();
+        if (!/^[a-z0-9-]+$/.test(p.slug)) return toast("Slug must be lowercase-with-dashes", "err");
+        if (!p.title) return toast("Add a headline", "err");
+        try {
+          const f = await putFile("posts/"+p.slug+".json", JSON.stringify(p, null, 2) + "\n", editing.sha, (editing.name?"Edit":"Add")+" post: "+p.slug+" (via site editor)");
+          editing = { name:p.slug+".json", sha:f.content.sha };
+          toast("Saved! Live in about a minute.", "ok");
+        } catch (e) { toast("Save failed: " + e.message, "err"); }
+      }
+      async function delPost() {
+        if (!confirm("Delete this post? This can't be undone from here.")) return;
+        try { await deleteFile("posts/"+editing.name, editing.sha, "Delete post: "+editing.name+" (via site editor)"); toast("Deleted.", "ok"); loadPosts(); }
+        catch (e) { toast("Delete failed: " + e.message, "err"); }
+      }
+
+      function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+      init();
+    </script>
+  </body>
+</html>

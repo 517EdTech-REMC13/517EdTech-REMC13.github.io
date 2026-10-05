@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>517 Ed Tech — The Capital Region educator network | REMC13</title>
+    <meta
+      name="description"
+      content="517 Ed Tech helps educators across Michigan's Capital Region make everyday classroom moments count — practical gatherings, a digital instruction network, ready-to-use resources, grants, and a 700+ educator community."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./assets/branding/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="#top" aria-label="517 Ed Tech — part of REMC13, home">
+          <img class="brand-remc" src="./assets/branding/remc-logo.jpg" alt="REMC Association of Michigan" />
+          <span class="brand-name">517&nbsp;Ed&nbsp;Tech</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="./gatherings.html">Gatherings</a>
+          <a href="./professional-learning.html">Professional Learning</a>
+          <a href="./dispatch.html">The Dispatch</a>
+          <a href="./resources.html">Resources</a>
+          <a href="./grants.html">Grants</a>
+          <a href="./about.html">About</a>
+          <a class="nav-cta" href="#connect">Get involved</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- HERO / BANNER -->
+      <section class="hero has-photo" id="top" style="--photo:url('./assets/photos/home.jpg')">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Capital Region educator network · Est. 2014</p>
+            <h1>The most important moments in school happen between a teacher and a learner.</h1>
+            <p class="lede">517 Ed Tech helps educators across Clinton, Eaton, and Ingham counties make those everyday moments count — with practical gatherings, ready-to-use resources, and a regional network 700 strong.</p>
+            <p class="triad"><span>Learn.</span> <span>Connect.</span> <span>Empower.</span></p>
+            <div class="btn-row">
+              <a class="btn btn-primary" href="#programs">Explore our programs</a>
+              <a class="btn btn-ghost-light" href="./dispatch.html">Get the Dispatch</a>
+            </div>
+          </div>
+
+          <div class="hero-brand">
+            <div class="logo-plate">
+              <img src="./assets/branding/517edtech-logo.png" alt="517 Ed Tech" />
+            </div>
+            <dl class="stats" aria-label="At a glance">
+              <div><dt>700+</dt><dd>educators</dd></div>
+              <div><dt>3</dt><dd>counties served</dd></div>
+              <div><dt>2014</dt><dd>since</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROGRAM HUBS -->
+      <section class="section" id="programs">
+        <div class="wrap">
+          <div class="section-head center">
+            <p class="eyebrow">Explore 517 Ed Tech</p>
+            <h2>Four ways we support educators.</h2>
+            <p class="section-sub">
+              Whether you want to gather, watch, build, or fund a new idea —
+              start with the hub that fits where you are.
+            </p>
+          </div>
+          <div class="hub-grid" id="hub-grid"></div>
+        </div>
+      </section>
+
+      <!-- UPCOMING GATHERINGS -->
+      <section class="section section-soft" id="gatherings">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">Upcoming gatherings</p>
+            <h2>Learn by doing, alongside your peers.</h2>
+            <p class="section-sub">
+              Full-day workshops and regional sessions — most free for REMC13
+              educators, with SCECHs and lunch provided.
+            </p>
+          </div>
+          <div class="event-list" id="event-list"></div>
+        </div>
+      </section>
+
+      <!-- FEATURED RESOURCE -->
+      <section class="section" id="featured">
+        <div class="wrap">
+          <a class="feature" href="./workspace-mixtape.html">
+            <div class="feature-media">
+              <img src="./assets/hero-jukebox.png" alt="Google Workspace Greatest Hits resource hub" />
+            </div>
+            <div class="feature-body">
+              <p class="pill">Featured resource hub</p>
+              <h3>Google Workspace: Greatest Hits &amp; New Releases</h3>
+              <p>
+                One of our full-day sessions, packaged as a browsable
+                “tracklist.” Educators open the hub during the workshop and tap
+                any track to jump straight to the resource — no scrambling for
+                links.
+              </p>
+              <span class="feature-link">Visit the hub →</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- THE 517 DISPATCH (blog / newsletter) -->
+      <section class="section section-dark" id="dispatch">
+        <div class="wrap">
+          <div class="dispatch-head">
+            <div>
+              <p class="eyebrow eyebrow-light">The 517 Dispatch</p>
+              <h2>Quick wins, recaps, and resources — straight to your inbox.</h2>
+              <p class="section-sub light">
+                A short, practical note from the team: tech tips, event recaps,
+                and classroom-ready ideas you can use this week.
+              </p>
+            </div>
+            <form class="subscribe" id="subscribe" novalidate>
+              <label class="sr-only" for="email">Email address</label>
+              <input id="email" type="email" placeholder="you@yourdistrict.org" autocomplete="email" />
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+              <p class="subscribe-note" id="subscribe-note">Free · about twice a month · unsubscribe anytime.</p>
+            </form>
+          </div>
+          <div class="post-grid" id="post-grid"></div>
+          <p class="dispatch-foot"><a href="./dispatch.html">Browse the full archive →</a></p>
+        </div>
+      </section>
+
+      <!-- TEAM -->
+      <section class="section section-soft" id="team">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="eyebrow">The team</p>
+            <h2>Real educators you'll actually work with.</h2>
+            <p class="section-sub">
+              517 Ed Tech is coordinated by a small crew of instructional
+              technology folks from across the region's intermediate districts.
+            </p>
+          </div>
+          <div class="team-grid" id="team-grid"></div>
+        </div>
+      </section>
+
+      <!-- CONNECT -->
+      <section class="section" id="connect">
+        <div class="wrap">
+          <div class="connect">
+            <div class="connect-copy">
+              <p class="eyebrow eyebrow-light">Get involved</p>
+              <h2>There's room for you.</h2>
+              <p class="section-sub light">
+                Bring 517 Ed Tech to your building, join a gathering, or just ask
+                a question. Tell us what you're working on and we'll help you find
+                the next step.
+              </p>
+              <div class="social-row">
+                <a href="https://www.facebook.com/517EdTech" target="_blank" rel="noreferrer">Facebook</a>
+                <a href="https://twitter.com/517EdTech" target="_blank" rel="noreferrer">@517EdTech</a>
+                <a href="https://www.remc13.org/517edtech/" target="_blank" rel="noreferrer">remc13.org</a>
+              </div>
+            </div>
+            <div class="connect-actions">
+              <a class="btn btn-primary" href="mailto:ashauver@inghamisd.org">Email the team</a>
+              <a class="btn btn-ghost-light" href="#gatherings">See what's coming up</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <div class="footer-brand">
+          <img src="./assets/branding/517edtech-logo.png" alt="" />
+          <div>
+            <strong>517 Ed Tech</strong>
+            <span>REMC13 · Clinton, Eaton &amp; Ingham counties</span>
+          </div>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="./gatherings.html">Gatherings</a>
+          <a href="./professional-learning.html">Professional Learning</a>
+          <a href="./dispatch.html">The Dispatch</a>
+          <a href="./resources.html">Resources</a>
+          <a href="./grants.html">Grants</a>
+          <a href="./about.html">About</a>
+        </nav>
+        <p class="footer-fine">
+          Part of the REMC Association of Michigan. Serving Capital Region educators since 2014.
+        </p>
+      </div>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

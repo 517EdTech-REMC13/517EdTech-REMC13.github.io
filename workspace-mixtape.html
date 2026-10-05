@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Workspace: Greatest Hits & New Releases</title>
+    <meta
+      name="description"
+      content="A polished website version of the Google Workspace Greatest Hits and New Releases resource hub."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700;800&family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./assets/branding/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./workspace-mixtape.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="topbar" aria-label="Primary">
+          <a class="brand" href="./index.html">517 Ed Tech</a>
+          <div class="topbar-links">
+            <a href="./index.html#offerings">Offerings</a>
+            <a href="#tracklist">Tracklist</a>
+            <a href="#band">Meet the Band</a>
+          </div>
+        </nav>
+
+        <section class="hero-main" id="top">
+          <section class="hero-copy">
+            <p class="eyebrow">Google Workspace Resource Hub</p>
+            <h1>Greatest Hits and New Releases</h1>
+            <p class="lede">
+              Spinning the best Google Workspace, from certified classics to the
+              hot new singles. Tap a record to check out the track.
+            </p>
+
+            <div class="hero-actions">
+              <a
+                class="button button-primary"
+                href="#tracklist"
+              >
+                Browse the tracks
+              </a>
+              <a
+                class="button button-secondary"
+                href="https://docs.google.com/document/d/1vN3PtNVn37aMWKbgD3QQUP9hJubi0iCMmP7zv3E0ecc/edit?tab=t.0"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View source doc
+              </a>
+            </div>
+
+            <section class="hero-stats" aria-label="Overview">
+              <article class="stat-card">
+                <span class="stat-value">15</span>
+                <span class="stat-label">featured tracks</span>
+              </article>
+              <article class="stat-card">
+                <span class="stat-value">2</span>
+                <span class="stat-label">agenda days</span>
+              </article>
+              <article class="stat-card">
+                <span class="stat-value">4</span>
+                <span class="stat-label">band members</span>
+              </article>
+            </section>
+          </section>
+
+          <section class="hero-visual" aria-label="Visual identity">
+            <div class="hero-image-panel">
+              <img
+                class="hero-image"
+                src="./assets/hero-jukebox.png"
+                alt="Jukebox-inspired Google Workspace artwork"
+              />
+              <div class="hero-image-badge hero-image-badge-top">
+                <span>517 Ed Tech</span>
+                <strong>Release Party</strong>
+              </div>
+              <div class="hero-image-badge hero-image-badge-bottom">
+                <span>Now playing</span>
+                <strong>Docs, Slides, Keep, NotebookLM</strong>
+              </div>
+            </div>
+          </section>
+        </section>
+      </header>
+
+      <main>
+        <section class="section" id="tracklist">
+          <div class="section-heading">
+            <p class="eyebrow">The Tracklist</p>
+            <h2>Browse the collection by app, tool, and update set.</h2>
+            <p>
+              Each card opens the original supporting Slides or Doc resource.
+            </p>
+          </div>
+          <div class="track-grid" id="track-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="section agenda-section" id="agenda">
+          <div class="section-heading">
+            <p class="eyebrow">Release Schedule</p>
+            <h2>Two-day workshop agenda</h2>
+            <p>
+              Built from the linked agenda doc so the site surfaces the event
+              flow directly.
+            </p>
+          </div>
+          <div class="agenda-grid" id="agenda-grid"></div>
+        </section>
+
+        <section class="section band-section" id="band">
+          <div class="section-heading">
+            <p class="eyebrow">Meet the Band</p>
+            <h2>The crew behind the playlist</h2>
+            <p>
+              Presenter cards pulled from the doc and reformatted for the web.
+            </p>
+          </div>
+          <div class="band-grid" id="band-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./workspace-mixtape.js"></script>
+  </body>
+</html>
