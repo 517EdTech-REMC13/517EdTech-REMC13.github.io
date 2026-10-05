@@ -68,7 +68,7 @@
           <ol>
             <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">github.com → new fine-grained token</a> (sign in if asked).</li>
             <li><b>Token name:</b> anything, e.g. "517 site editor".</li>
-            <li><b>Resource owner:</b> your account (Turnstyle19320).</li>
+            <li><b>Resource owner:</b> <code>517EdTech-REMC13</code>. Use your own account with access to the private repository.</li>
             <li><b>Repository access:</b> choose <b>Only select repositories</b> → pick <code>517edtech-site</code>.</li>
             <li><b>Permissions:</b> expand <b>Repository permissions</b> → set <b>Contents</b> to <b>Read and write</b>.</li>
             <li>Click <b>Generate token</b>, copy it, and paste it above. (You only do this once per browser.)</li>
@@ -86,7 +86,7 @@
       </div>
 
       <div id="copyView">
-        <p class="muted">Edit the headline &amp; intro shown at the top of each page. Save publishes to the live site (~1 min).</p>
+        <p class="muted">Edit the headline &amp; intro shown at the top of each page. Save updates the private source; ask the site publisher to publish the reviewed changes.</p>
         <div id="copyForm"></div>
         <button class="btn-primary" onclick="savePageCopy()">Save page copy</button>
       </div>
@@ -196,7 +196,7 @@
         try {
           const f = await putFile("content/pages.json", JSON.stringify(copyData, null, 2) + "\n", copySha, "Edit page copy (via site editor)");
           copySha = f.content.sha;
-          toast("Saved! Live in about a minute.", "ok");
+          toast("Saved to source. Ready for publisher review.", "ok");
         } catch (e) { toast("Save failed: " + e.message, "err"); }
       }
 
@@ -324,7 +324,7 @@
         try {
           const f = await putFile("posts/"+p.slug+".json", JSON.stringify(p, null, 2) + "\n", editing.sha, (editing.name?"Edit":"Add")+" post: "+p.slug+" (via site editor)");
           editing = { name:p.slug+".json", sha:f.content.sha };
-          toast("Saved! Live in about a minute.", "ok");
+          toast("Saved to source. Ready for publisher review.", "ok");
         } catch (e) { toast("Save failed: " + e.message, "err"); }
       }
       async function delPost() {
